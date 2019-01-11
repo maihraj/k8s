@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: rediness
+  name: rediness-exec
+spec:
+  containers:
+  - name: readiness
+    image: busybox
+    args:
+    - /bin/sh
+    - c
+    - touch /tmp/healty; sleep 30; rm -rf /tmp/healthy; sleep 600
+    readinessProbe:
+      exec:
+      - cat
+      - /tmp/healthy
+      initialDelaySeconds: 3
+      periodSeconds: 3
